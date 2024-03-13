@@ -5,6 +5,7 @@ class ApiManager{
   static const String apiAccessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwODU0YjNlMDk3MGE4NTQxMDEyNmJlMDAwYjViN2NmMSIsInN1YiI6IjY0YzUxZDQyZWVjNWI1MDEzOWZmNjU1MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1D4Qfqwpp7lv6vKgcBxFDbWGJQNFcSRyTiPuceKv_Is";
   static const String popularUrl = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&api_key=${apiKey}";
   static const String recommendedUrl = "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&api_key=${apiKey}";
+  static const String categoriesUrl = "https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=${apiKey}";
 
 
   static Future<Response> getPopularMovies()async {
@@ -30,6 +31,25 @@ class ApiManager{
     Response response = await Dio().get(similarUrl);
     if (response.statusCode == 200) {
       print("The Response of Similarity has been done successfully");
+      return response;
+    }
+    return response;
+  }
+
+  static Future<Response> searchForMovie(String query)async{
+    String searchForUrl = "https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1&api_key=${apiKey}";
+    Response response = await Dio().get(searchForUrl);
+    if(response.statusCode == 200){
+      print("The Response of search has been done successfully");
+      return response;
+    }
+    return response;
+  }
+
+  static Future<Response> getMoviesCategories()async{
+    Response response = await Dio().get(categoriesUrl);
+    if(response.statusCode == 200){
+      print("The Response of categories has been done successfully");
       return response;
     }
     return response;

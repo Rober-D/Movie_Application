@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_application/models/popular_model.dart';
 import '../api manager/api_manager.dart';
+import '../models/movies_model.dart';
 
 class PopularMoviesProvider extends ChangeNotifier {
-  PopularListModel? popularMovies;
-  List<PopularMovieModel>? specificMovie;
+  MovieListModel? popularMovies;
+  List<MovieModel>? specificMovie;
 
   void storePopularMovies() async {
     try {
       Response response = await ApiManager.getPopularMovies();
       if (response.statusCode == 200) {
-        popularMovies = PopularListModel.fromJson(response.data);
+        popularMovies = MovieListModel.fromJson(response.data);
         notifyListeners();
       }
     } catch (e) {
@@ -19,8 +19,8 @@ class PopularMoviesProvider extends ChangeNotifier {
     }
   }
 
-  PopularMovieModel? getSpecificMovie(int idOfMovie) {
-    specificMovie = popularMovies!.popularMovieDetails!
+  MovieModel? getSpecificMovie(int idOfMovie) {
+    specificMovie = popularMovies!.movieDetails!
         .where((element) => element.id == idOfMovie).toList();
     return specificMovie![0];
   }

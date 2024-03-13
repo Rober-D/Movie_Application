@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
 import '../api manager/api_manager.dart';
 import '../models/similar_model.dart';
 

@@ -16,6 +16,7 @@ dependencies:
   provider: ^6.1.1
   google_fonts: ^4.0.4
   dio: ^5.4.1
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
