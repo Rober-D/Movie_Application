@@ -34,7 +34,7 @@ class _PosterCardState extends State<PosterCard> {
         ),
         InkWell(
             onTap: () {
-              ///To Do : Add to fav.
+              ///ToDo : Add to fav.
              setState(() {
                userMovies.addToFavourite(popularMoviesProvider.popularMovies!
                    .movieDetails![widget.index!]);

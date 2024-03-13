@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_application/core/constants/links.dart';
 import 'package:movie_application/state%20management/recommended_movies_provider.dart';
+import 'package:movie_application/state%20management/similar_movies_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../models/movies_model.dart';
@@ -21,8 +22,8 @@ class _RecommendedCardState extends State<RecommendedCard> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     UserMoviesProvider userFavMovies = Provider.of<UserMoviesProvider>(context);
-    RecommendedMoviesProvider recommendedMoviesProvider =
-        Provider.of<RecommendedMoviesProvider>(context);
+    RecommendedMoviesProvider recommendedMoviesProvider = Provider.of<RecommendedMoviesProvider>(context);
+    SimilarMoviesProvider similarMoviesProvider = Provider.of<SimilarMoviesProvider>(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
@@ -44,6 +45,11 @@ class _RecommendedCardState extends State<RecommendedCard> {
                     recommendedMoviesProvider.recommendedMovies!
                         .movieDetails![widget.index!].isFav =
                     !recommendedMoviesProvider.recommendedMovies!
+                        .movieDetails![widget.index!].isFav!;
+
+                    similarMoviesProvider.similarMovies!
+                        .movieDetails![widget.index!].isFav =
+                    !similarMoviesProvider.similarMovies!
                         .movieDetails![widget.index!].isFav!;
                   });
                 },

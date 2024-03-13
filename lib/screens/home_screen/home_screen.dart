@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_application/screens/home_screen/home_widgets/recommended_movie_card.dart';
+import 'package:movie_application/screens/movie_details_screen.dart';
 import 'package:movie_application/state%20management/popular_movies_provider.dart';
 import 'package:movie_application/state%20management/recommended_movies_provider.dart';
+import 'package:movie_application/state%20management/similar_movies_provider.dart';
+import 'package:movie_application/state%20management/user_movies_provider.dart';
 import 'package:provider/provider.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/links.dart';
@@ -29,13 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    PopularMoviesProvider popularMoviesProvider =
-        Provider.of<PopularMoviesProvider>(context);
-    RecommendedMoviesProvider recommendedMoviesProvider =
-        Provider.of<RecommendedMoviesProvider>(context);
+    PopularMoviesProvider popularMoviesProvider = Provider.of<PopularMoviesProvider>(context);
+    RecommendedMoviesProvider recommendedMoviesProvider = Provider.of<RecommendedMoviesProvider>(context);
+    UserMoviesProvider userMovies = Provider.of<UserMoviesProvider>(context);
+    SimilarMoviesProvider simMovies = Provider.of<SimilarMoviesProvider>(context);
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    int currentIndex = 0;
 
     return Scaffold(
       backgroundColor: AppColors.baseColor,
@@ -44,22 +48,32 @@ class _HomeScreenState extends State<HomeScreen> {
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
-                CarouselSlider(
-                  items:
-                      showPopularMovies(popularMoviesProvider.popularMovies!),
-                  options: CarouselOptions(
-                    height: 300,
-                    initialPage: 0,
-                    enableInfiniteScroll: true,
-                    reverse: false,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 5),
-                    autoPlayAnimationDuration:
-                        const Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    enlargeCenterPage: true,
-                    enlargeFactor: 0.3,
-                    scrollDirection: Axis.horizontal,
+                InkWell(
+                  onTap: (){
+                    ///ToDo - Implement Movie Details Screen
+                    userMovies.movieClicked(popularMoviesProvider.popularMovies!.movieDetails![currentIndex]);
+                    simMovies.storeSimilarMovies(userMovies.movieStored!.id!);
+                    Navigator.pushNamed(context, MovieDetailsScreen.routeName);
+                  },
+                  child: CarouselSlider(
+                    items: showPopularMovies(popularMoviesProvider.popularMovies!),
+                    options: CarouselOptions(
+                      onPageChanged: (index,reason){
+                        currentIndex = index;
+                      },
+                      height: 300,
+                      initialPage: 0,
+                      enableInfiniteScroll: true,
+                      reverse: false,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 5),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enlargeCenterPage: true,
+                      enlargeFactor: 0.3,
+                      scrollDirection: Axis.horizontal,
+                    ),
                   ),
                 ),
                 Container(
@@ -89,11 +103,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: screenWidth * 0.37,
                               padding:
                                   const EdgeInsets.only(left: 15, right: 15),
-                              child: Center(
-                                child: PosterCard(
-                                    index: index,
-                                    poster:
-                                        "${Links.IMAGE_URL}${popularMoviesProvider.popularMovies!.movieDetails![index].poster}"),
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    userMovies.movieClicked(popularMoviesProvider.popularMovies!.movieDetails![index]);
+                                    Navigator.pushNamed(context, MovieDetailsScreen.routeName);
+                                  });
+                                },
+                                child: Center(
+                                  child: PosterCard(
+                                      index: index,
+                                      poster:
+                                          "${Links.IMAGE_URL}${popularMoviesProvider.popularMovies!.movieDetails![index].poster}"),
+                                ),
                               ),
                             );
                           },
@@ -138,11 +160,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: screenWidth * 0.37,
                               padding:
                                   const EdgeInsets.only(left: 15, right: 15),
-                              child: Center(
-                                child: RecommendedCard(
-                                  index: index,
-                                  movie: recommendedMoviesProvider.recommendedMovies!.movieDetails![index]),
-                                ),
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    userMovies.movieClicked(recommendedMoviesProvider.recommendedMovies!.movieDetails![index]);
+                                    Navigator.pushNamed(context, MovieDetailsScreen.routeName);
+                                  });
+                                },
+                                child: Center(
+                                  child: RecommendedCard(
+                                    index: index,
+                                    movie: recommendedMoviesProvider.recommendedMovies!.movieDetails![index]),
+                                  ),
+                              ),
                             );
                           },
                           itemCount: recommendedMoviesProvider

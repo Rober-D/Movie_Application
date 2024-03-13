@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:movie_application/screens/temp_screen.dart';
-import '../../screens/browse_screen.dart';
+import '../../screens/browse_screen/browse_screen.dart';
 import '../../screens/home_screen/home_screen.dart';
 import '../../screens/main_screen.dart';
 import '../../screens/movie_details_screen.dart';
-import '../../screens/search_screen.dart';
+import '../../screens/search_screen/search_screen.dart';
 import '../../screens/splash_screen.dart';
 import '../../screens/watchlist_screen/watchlist_screen.dart';
 

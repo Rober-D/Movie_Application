@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movie_application/screens/main_screen.dart';
 import 'package:movie_application/screens/splash_screen.dart';
 import 'package:movie_application/state%20management/movies_categories_provider.dart';
 import 'package:movie_application/state%20management/popular_movies_provider.dart';

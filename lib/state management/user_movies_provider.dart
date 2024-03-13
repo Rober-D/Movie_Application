@@ -3,6 +3,7 @@ import '../models/movies_model.dart';
 
 class UserMoviesProvider extends ChangeNotifier{
   List<MovieModel> userMovies = [];
+  MovieModel? movieStored;
 
   void addToFavourite(MovieModel movie){
     if(movie.isFav == false){
@@ -18,5 +19,9 @@ class UserMoviesProvider extends ChangeNotifier{
   void removeFromFavourite(MovieModel movie){
    userMovies.remove(movie);
    notifyListeners();
+  }
+
+  void movieClicked(MovieModel movie){
+    movieStored = movie;
   }
 }

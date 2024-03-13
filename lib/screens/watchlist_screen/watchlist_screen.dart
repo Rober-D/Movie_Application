@@ -49,6 +49,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                 child: ListView.separated(
                     itemBuilder: (BuildContext context, int index) {
                       return WatchlistMovieCard(
+                        showFav: true,
                         movie: userFavMovies.userMovies[index],
                       );
                     },

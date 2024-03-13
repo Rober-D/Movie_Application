@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:movie_application/core/constants/colors.dart';
-import 'package:movie_application/screens/search_screen.dart';
+import 'package:movie_application/screens/search_screen/search_screen.dart';
 import 'package:movie_application/screens/watchlist_screen/watchlist_screen.dart';
 import 'package:movie_application/state%20management/screens_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../core/shared/bottom_navigation_bar.dart';
-import 'browse_screen.dart';
+import 'browse_screen/browse_screen.dart';
 import 'home_screen/home_screen.dart';
 import 'movie_details_screen.dart';
 

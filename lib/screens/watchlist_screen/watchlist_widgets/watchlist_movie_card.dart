@@ -5,10 +5,11 @@ import 'package:provider/provider.dart';
 import '../../../core/constants/links.dart';
 import '../../../models/movies_model.dart';
 
-
 class WatchlistMovieCard extends StatefulWidget {
-  WatchlistMovieCard({super.key,required this.movie});
+  WatchlistMovieCard({super.key, required this.movie, required this.showFav});
+
   MovieModel? movie;
+  bool? showFav;
 
   @override
   State<WatchlistMovieCard> createState() => _WatchlistMovieCardState();
@@ -33,23 +34,27 @@ class _WatchlistMovieCardState extends State<WatchlistMovieCard> {
               //Image
               ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(Links.IMAGE_URL+widget.movie!.image!)),
-              InkWell(
-                onTap: () {
-                  ///To Do remove from fav
-                  setState(() {
-                    userFavMovies.removeFromFavourite(widget.movie!);
-                    widget.movie!.isFav = false;
-                  });
-
-                },
-                child: Image(
-                  image: widget.movie!.isFav == false
-                      ? const AssetImage("assets/icons/bookmark.png")
-                      : const AssetImage("assets/icons/bookmark_selected.png"),
-                  width: 25,
-                ),
-              ),
+                  child: widget.movie!.image == null
+                      ? Container()
+                      : Image.network(Links.IMAGE_URL + widget.movie!.image!)),
+              widget.showFav == true
+                  ? InkWell(
+                      onTap: () {
+                        ///ToDo remove from fav
+                        setState(() {
+                          userFavMovies.removeFromFavourite(widget.movie!);
+                          widget.movie!.isFav = false;
+                        });
+                      },
+                      child: Image(
+                        image: widget.movie!.isFav == false
+                            ? const AssetImage("assets/icons/bookmark.png")
+                            : const AssetImage(
+                                "assets/icons/bookmark_selected.png"),
+                        width: 25,
+                      ),
+                    )
+                  : Container(),
             ],
           ),
         ),
@@ -64,7 +69,7 @@ class _WatchlistMovieCardState extends State<WatchlistMovieCard> {
                 children: [
                   Expanded(
                     child: Text(
-                      widget.movie!.title!,
+                      partOfDesc(widget.movie!.title!),
                       style: const TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
@@ -104,7 +109,7 @@ class _WatchlistMovieCardState extends State<WatchlistMovieCard> {
       ],
     );
   }
-  String partOfDesc(String desc){
+  String partOfDesc(String desc) {
     List<String> words = desc.split(' ');
     return '${words.take(4).join(' ')} ...';
   }
